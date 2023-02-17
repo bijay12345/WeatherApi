@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
+
+# HERE I AM DEFINING A CUSTOM USER MODEL, THE MODEL INHERITS FROM THE BaseUserManager AND OVERRIDES SOME OF ITS METHODS.
 class UserManager(BaseUserManager):
 	def create_user(self,email,name,password=None,password2=None):
 		if not email:
@@ -24,6 +26,8 @@ class UserManager(BaseUserManager):
 		user.save(using=self._db)
 		return user
 
+
+# THIS IS THE ACTUAL USER MODEL THAT IS USED FOR THE LOGIN FUNCTIONALITY, IT INHERITS THE AbstractBaseUser.
 
 class User(AbstractBaseUser):
 	email=models.EmailField(verbose_name="Email Address",
@@ -57,6 +61,10 @@ class User(AbstractBaseUser):
 		"Is user a member of staff"
 		return self.is_admin
 
+
+
+
+# THIS IS THE WEATHER MODEL WHERE ALL THE DATA FROM THE 'openweathermap.org' GETS SAVED, I HAVE USED 4 FIELDS TO CAPTURE SOME BASIC INFORMATION ACCORDING TO THE CITY.
 
 class Weather(models.Model):
     city = models.CharField(max_length=200, blank=True, null=True)

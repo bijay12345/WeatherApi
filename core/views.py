@@ -12,6 +12,8 @@ from .paginator import WeatherPagination
 from rest_framework import generics
 
 
+
+# I AM USING THE GENERIC LISTAPI VIEW PROVIDED BY THE DRF.THIS WILL LIST ALL THE OBJECTS IN THE QUERYSET.
 class WeatherListApi(generics.ListAPIView):
 	authentication_classes=[SessionAuthentication]
 	permission_classes=[IsAuthenticated]
@@ -20,6 +22,9 @@ class WeatherListApi(generics.ListAPIView):
 	pagination_class = WeatherPagination
 
 
+
+# HERE I AM USNIG THE APIView PROVIDED BY THE DRF. THIS VIEW BASICALLY TAKES THE DATA FROM THE LOGIN PAGE SERIALIZES IT 
+# AND THEN AFTER AUTHENTICATING THE DATA IT LOGS THE USER IN USING THE login() provided by the django.contrib.auth
 class UserLoginView(APIView):
 	authentication_classes=[SessionAuthentication]
 	permission_classes=[AllowAny]
@@ -47,6 +52,7 @@ class UserLoginView(APIView):
 
 
 
+# THIS IS  THE LOGOUT VIEW, IT USES THE APIview PROVIDED BY THE DRF AND BASICALLY IT JUST LOGOUT THE USER.
 class UserLogoutView(APIView):
 	authentication_classes=[SessionAuthentication]
 	permission_classes=[IsAuthenticated]
@@ -54,38 +60,3 @@ class UserLogoutView(APIView):
 	def get(self,request,format=None):
 		logout(request)
 		return redirect("login")
-
-
-
-
-# def home(request):
-# 	data=dict(requests.get(f"https://api.openweathermap.org/data/2.5/weather?q=Siliguri&appid=7f09ced009234bc55b64960b5284ac6d").json())
-# 	return render(request,"core/home.html",{"city":data})
-
-
-# class WeatherApiView(APIView):
-# 	def get(self,request,format=None):
-# 		return HttpResponse("<h1>Get weather</h1>")
-# 	def post(self,request,format=None):
-# 		city=["Siliguri","Delhi","Mumbai","Pune","Bangalore","Hyderabad","Ahmedabad","Chennai","Kolkata","Surat","Vadodara","Pune","Jaipur",
-# 		"Lucknow","Kanpur","Nagpur","Indore","Thane","Patna","Ghaziabad","Ludhiana","Agra","Nashik","Meerut","Srinagar","Gwalior","Jabalpur","Jodhpur","Dhanbad","Guwahati"]
-# 		for city in city:
-# 			data=dict(requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid=7f09ced009234bc55b64960b5284ac6d").json())
-# 			time=data.get("dt")
-# 			date = datetime.date.fromtimestamp(int(time))
-
-# 			data={
-# 			"city":data.get("name"),
-# 			"weather_date":str(date),
-# 			"maximum_temperature":data.get("main")["temp_max"],
-# 			"minimum_temperature":data.get("main")["temp_min"],
-# 			"humidity":data.get("main")["humidity"],
-# 			}
-
-# 			serializer=WeatherSerializer(data=data)
-# 			if serializer.is_valid():
-# 				serializer.save()
-# 			else:
-# 				print(serializer.errors)
-# 		return redirect("home")
-
